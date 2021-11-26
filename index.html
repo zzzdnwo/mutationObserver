@@ -15,34 +15,38 @@
         </ul>
     </section>
     <script>
-        //감지할 타겟 정해서
+        // DOM 감지 시작
+
+        //타겟 정해주고
         const target = document.querySelector('ul');
-        //뮤테이션옵저버 선언해주고 안에 화살표함수로 감지될때마다 명령
-        const observer = new MutationObserver((mutations) => {
-            alert('DOM 감지!');
-        })
 
-        //속성 중 최소한 childList, attributes, characterData는 true로 설정해야 한다. (여기선 ul의 자식들이 추가되는거라 childList만 써도 감지를 하네??)
-        const option = {
-            attributes: true, //내 속성 변화 감지
-            childList: true, // 자식이 바뀌는거 감지
-            charcterData: true // 내 데이터 변화 감지
+        //옵저버 생성
+        const observer = new MutationObserver((obs)=>{
+            alert('감지!!!');
+        });
+        //옵저버 옵션
+        let options = {
+            attributes: true,
+            childList: true,
+            characterData: true
         }
+        //옵저버 파견
+        observer.observe(target,options);
 
-        //대상 타겟에 감시자 보내기
-        observer.observe(target, option);
-
-        function addRow(){
+        //버튼 클릭 시 ul에 li추가
+       function addRow(){
             const list = document.querySelector('ul');
-            let lastRow = document.querySelector('li:last-child');
-            let newNum = parseInt(lastRow.textContent.replace(/[^0-9]/g, '')) + 1;
-
-            let row = document.createElement('li');
-
-            row.textContent = newNum + '번째 아이템';
-
+            const liLast = document.querySelector('ul li:last-child');
+            //마지막 li의 텍스트의 숫자만 가져와서 + 1
+            const newNum = parseInt(liLast.textContent.replace(/[^0-9]/g, ''))+1;
+            console.log(newNum);
+            //DOM에 li생성
+            const row = document.createElement('li');
+            //생성한 li내용을 방금 newNum이란 이름으로 만든 넘버 가져와서 넣기
+            row.textContent = newNum+"번 아이템";
+            //DOM에 생성했던 li ul에다가 넣기
             list.appendChild(row);
-        }
+       }
     </script>
 </body>
 </html>
